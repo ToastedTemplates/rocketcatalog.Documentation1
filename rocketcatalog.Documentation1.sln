@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rocketcatalog.Documentation1", "rocketcatalog.Documentation1.csproj", "{849672B9-7AEA-45E8-BF91-2A7E28FCBE12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DNNrocketAPI", "..\..\DNNrocket\API\DNNrocketAPI.csproj", "{2200F6C3-7D4B-4CDF-908F-DCA37ADFB121}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simplisity", "..\..\DNNrocket\Simplisity\Simplisity.csproj", "{952C78BF-4016-42DF-AC13-00A8D47EDF0A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RocketCatalog", "..\..\DNNrocketModules\RocketCatalog\RocketCatalog.csproj", "{DDADC98B-94BA-45B3-97C2-338A919C742C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Razor|Any CPU = Razor|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{849672B9-7AEA-45E8-BF91-2A7E28FCBE12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{849672B9-7AEA-45E8-BF91-2A7E28FCBE12}.Razor|Any CPU.ActiveCfg = Release|Any CPU
+		{849672B9-7AEA-45E8-BF91-2A7E28FCBE12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2200F6C3-7D4B-4CDF-908F-DCA37ADFB121}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2200F6C3-7D4B-4CDF-908F-DCA37ADFB121}.Razor|Any CPU.ActiveCfg = Razor|Any CPU
+		{2200F6C3-7D4B-4CDF-908F-DCA37ADFB121}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{952C78BF-4016-42DF-AC13-00A8D47EDF0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{952C78BF-4016-42DF-AC13-00A8D47EDF0A}.Razor|Any CPU.ActiveCfg = Razor|Any CPU
+		{952C78BF-4016-42DF-AC13-00A8D47EDF0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDADC98B-94BA-45B3-97C2-338A919C742C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDADC98B-94BA-45B3-97C2-338A919C742C}.Razor|Any CPU.ActiveCfg = Razor|Any CPU
+		{DDADC98B-94BA-45B3-97C2-338A919C742C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6AD79ABA-E575-4757-AC16-B395D021CF36}
+	EndGlobalSection
+EndGlobal
