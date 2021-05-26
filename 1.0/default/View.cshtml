@@ -1,0 +1,85 @@
+﻿@inherits RocketCatalog.Components.RocketCatalogTokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI;
+@using Simplisity;
+@using RocketCatalog.Components;
+@using DNNrocketAPI.Components;
+
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketCatalog/App_LocalResources/")
+
+@{
+    var articleDataList = (ArticleLimpetList)Model.List.First();
+    var remoteParam = (RemoteLimpet)Model.GetDataObject("remoteparam");
+    var categoryDataList = (CategoryLimpetList)Model.GetDataObject("categorydatalist");
+    var categoryData = new CategoryLimpet(articleDataList.PortalCatalog.PortalId, articleDataList.SessionParamData.GetInt("searchcategoryid"));
+
+    // We need the moduleid, the first remote call will have the moduleid, subsequent call need to have the remote module passed by the s-field
+    var moduleId = Model.ModuleId;
+    var tabId = Model.TabId;
+    if (remoteParam != null)
+    {
+        moduleId = remoteParam.ModuleId;
+        tabId = remoteParam.TabId;
+    }
+
+}
+
+    <h1>@remoteParam.RemoteCmd :RemoteCmd  </h1>
+
+@RenderTemplate("SearchBanner.cshtml", "/DesktopModules/RocketThemes/rocketcatalog", articleDataList.PortalCatalog.AppTheme.AppThemeFolder, Model, "1.0", true)
+
+
+<!-- Sidebar/menu -->
+@RenderTemplate("CategorySideMenu.cshtml", "/DesktopModules/RocketThemes/rocketcatalog", articleDataList.PortalCatalog.AppTheme.AppThemeFolder, Model, "1.0", true)
+
+    <div class="w3-main" style="margin-left:340px;margin-right:40px;margin-top:72px">
+
+        <!-- Header -->
+        <div class="w3-container" style="margin-top:80px" id="showcase">
+            <h1 class="w3-xxlarge w3-text-theme"><b>@categoryData.Name</b></h1>
+        </div>
+        <div class="w3-margin-left">
+            @BreakOf(categoryData.Summary)
+            @HtmlOf(categoryData.RichText)
+        </div>
+
+
+        <div id="datasection" class="w3-topbar">
+
+
+            <ul class="w3-ul w3-hoverable w3=-border-bottom">
+                @{
+                    var lp1 = 0;
+                }
+                @foreach (ArticleLimpet articleData in articleDataList.GetArticleList())
+                {
+                    lp1 += 1;
+                    <li class="simplisity_click" s-cmd="rocketcatalog_public" s-return='#simplisitymodulewrapper@(moduleId)' s-post=".searchdata" s-fields='{"articleid":"@(articleData.ArticleId)","systemkey":"rocketcatalog","track":"true"}' style="cursor:pointer;">
+                        @articleData.Name
+                    </li>
+                }
+            </ul>
+
+
+            @RenderTemplate("Paging.cshtml", "/DesktopModules/RocketThemes/rocketcatalog", articleDataList.PortalCatalog.AppTheme.AppThemeFolder, Model, "1.0", true)
+
+            <div class="w3-row w3-padding w3-right">
+                <p class="w3-left w3-text-grey">@articleDataList.RecordCount @ResourceKey("RC.articles", remoteParam.CultureCode)</p>
+            </div>
+
+        </div>
+
+
+
+
+        <!-- End page content -->
+    </div>
+
+
+<script>
+
+    $(document).ready(function () {
+        activatedocumentready('@(articleDataList.PortalCatalog.EngineUrlWithProtocol)');
+    });
+
+</script>

@@ -1,0 +1,42 @@
+﻿@inherits RocketCatalog.Components.RocketCatalogTokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI;
+@using Simplisity;
+@using RocketCatalog.Components;
+@using DNNrocketAPI.Components;
+
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketCatalog/App_LocalResources/")
+
+@{
+    var categoryDataList = (CategoryLimpetList)Model.GetDataObject("categorydatalist");
+}
+
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-theme w3-collapse w3-top w3-large w3-padding" style="width:340px;font-weight:bold;margin-top:72px">
+    <br>
+    <div class=" w3-button w3-left-align " onclick="$('#searchcategoryid').val('0'); $('.dosearch').trigger('click');" style="width:100%">
+        @ResourceKey("RC.all")
+    </div>
+    <table class="categorytree">
+        @foreach (var categoryData in categoryDataList.GetCategoryTree())
+        {
+            var parentclass = "";
+            if (categoryData.ParentItemId > 0)
+            {
+                parentclass = "treegrid-parent-" + categoryData.ParentItemId;
+            }
+
+            <tr class=" w3-button treegrid-@(categoryData.CategoryId)  @(parentclass)" onclick="$('#searchcategoryid').val('@(categoryData.CategoryId)'); $('.triggersearch').trigger('click');" style="width:100%">
+                <td>
+
+                    @categoryData.Name
+
+
+                </td>
+            </tr>
+        }
+    </table>
+
+</nav>
+

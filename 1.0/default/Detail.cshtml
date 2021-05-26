@@ -1,0 +1,165 @@
+﻿@inherits RocketCatalog.Components.RocketCatalogTokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI;
+@using Simplisity;
+@using RocketCatalog.Components;
+@using DNNrocketAPI.Components;
+
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketCatalog/App_LocalResources/")
+
+@{
+    var articleData = (ArticleLimpet)Model.List.First();
+    var remoteParam = (RemoteLimpet)Model.GetDataObject("remoteparam");
+    var categoryDataList = (CategoryLimpetList)Model.GetDataObject("categorydatalist");
+
+    // We need the moduleid, the first remote call will have the moduleid, subsequent call need to have the remote module passed by the s-field
+    var moduleId = Model.ModuleId;
+    var tabId = Model.TabId;
+    if (remoteParam != null)
+    {
+        moduleId = remoteParam.ModuleId;
+        tabId = remoteParam.TabId;
+    }
+
+    var logoRelPath = articleData.LogoRelPath;
+    if (articleData.LogoRelPath == "")
+    {
+        logoRelPath = "/DesktopModules/DNNrocket/api/images/noimage2.png";
+    }
+
+}
+
+
+@RenderTemplate("SearchBanner.cshtml", "/DesktopModules/RocketThemes/rocketcatalog", articleData.PortalCatalog.AppTheme.AppThemeFolder, Model, "1.0", true)
+
+
+<!-- Sidebar/menu -->
+@RenderTemplate("CategorySideMenu.cshtml", "/DesktopModules/RocketThemes/rocketcatalog", articleData.PortalCatalog.AppTheme.AppThemeFolder, Model, "1.0", true)
+
+    <div class="w3-main" style="margin-left:340px;margin-right:40px;margin-top:72px">
+
+            <div class="w3-col m3 l2 s4 w3-button w3-theme-l2 w3-margin simplisity_click" s-before='sendRemoteParams@(moduleId)' s-cmd="rocketcatalog_public" s-return='#simplisitymodulewrapper@(moduleId)' s-fields='{"systemkey":"rocketcatalog"}'>@ButtonText(ButtonTypes.back)</div>
+
+        <!-- Header -->
+        <div class="w3-container " style="margin-top:30px" id="showcase">
+            <h1 class="w3-xxlarge"><b>@articleData.Name</b></h1>
+            <p class="w3-text-theme"><b>@BreakOf(articleData.Summary)</b></p>
+        </div>
+
+        <div id="datasection" class="simplisity_panel w3-topbar">
+
+
+            <div class="w3-row w3-margin-top w3-margin-left">
+
+
+
+                @foreach (var articleRowData in articleData.GetArticleRows())
+                {
+                    if (articleRowData.ShowTitle)
+                    {
+                        <h1>@articleRowData.Title</h1>
+                    }
+
+
+                    var imgList = articleRowData.GetImages();
+                    if (imgList.Count > 0)
+                    {
+                        if (imgList.Count == 1)
+                        {
+                            // single image
+                            <div class="w3-center">
+                                <img src="@(articleData.PortalCatalog.EngineUrlWithProtocol.TrimEnd('/'))/@(articleRowData.GetImage(0).RelPath)" class="" style="width:80%" />
+                                <p>
+                                    @BreakOf(articleRowData.GetImage(0).Summary)
+                                </p>
+                            </div>
+                        }
+                        else
+                        {
+                            // image gallery for mulitple images.
+
+                            <div class="w3-row-padding">
+                                @foreach (var img in imgList)
+                                {
+                                    <div class="w3-container w3-quarter">
+                                        <img src="@(articleData.PortalCatalog.EngineUrlWithProtocol.TrimEnd('/'))/@(img.RelPath)" title="@BreakOf(img.Summary)" style="width:100%" onclick="onImgClick(this)">
+                                    </div>
+                                }
+                            </div>
+                            <div id="modal01" class="w3-modal w3-center" onclick="this.style.display='none'">
+                                <img class="w3-modal-content" id="img01" style="width:70%">
+                                <p id="modal01summary"></p>
+                            </div>
+                        }
+                    }
+
+
+                    @HtmlOf(articleRowData.RichText)
+                    @BreakOf(articleRowData.Text)
+
+                    // documents
+                    <div class="w3-row-padding">
+                        @{
+                            var doclp = 1;
+                        }
+                        @foreach (var documentData in articleRowData.GetDocuments())
+                        {
+                            <div class="w3-container w3-padding">
+                                <a href="@(articleData.PortalCatalog.EngineUrlWithProtocol.TrimEnd('/'))/@documentData.RelPath" target="_blank" class="w3-button w3-block w3-blue" download="@documentData.Name">@documentData.Name</a>
+                            </div>
+                            doclp += 1;
+                        }
+                    </div>
+
+                    // Links
+                    <div class="w3-row-padding">
+                        @{
+                            var linklp = 1;
+                        }
+                        @foreach (var linkData in articleRowData.Getlinks())
+                        {
+                            if (!linkData.Hidden)
+                            {
+                                var name = linkData.Name;
+                                if (name == "")
+                                {
+                                    name = linkData.Url;
+                                }
+                                <div class="w3-container w3-padding">
+                                    <a href="@(linkData.Url)" target="@(linkData.Target)" class="w3-button w3-block w3-light-grey">@(name)</a>
+                                </div>
+                            }
+                            linklp += 1;
+                        }
+                    </div>
+
+
+                }
+
+            </div>
+
+        </div>
+
+
+
+
+        <!-- End page content -->
+    </div>
+
+<!-- W3.CSS Container -->
+<div class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px"><p class="w3-right">Powered by <a href="https://www.agence-sesame.fr" title="www.agence-sesame.fr" target="_blank" class="w3-hover-opacity">Agence Sesame</a></p></div>
+
+
+<script>
+
+    $(document).ready(function () {
+        activatedocumentready('@(articleData.PortalCatalog.EngineUrlWithProtocol)');
+    });
+
+    function onImgClick(element) {
+        document.getElementById("img01").src = element.src;
+        $('#modal01summary').html(element.title);       
+        document.getElementById("modal01").style.display = "block";
+    }
+
+</script>
