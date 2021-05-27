@@ -6,35 +6,9 @@
 
 @{
     var portalCatalog = (PortalCatalogLimpet)Model.List.First();
-    var remoteParam = (RemoteLimpet)Model.GetDataObject("remoteparam");
+    var sessionParams = (SessionParams)Model.SessionParamsData;
     var paramInfo = (SimplisityInfo)Model.GetDataObject("paraminfo");
-
-    var remoteParamItem = "";
-    var moduleId = Model.ModuleId;
-    var tabId = Model.TabId;
-    // We need the moduleid, the first remote call will have the moduleid, subsequent call need to have the remote module passed by simplsityparam fields.
-    // The remote data assignments needs to be on every template header, so multiple remote modules on the same page work.
-    if (remoteParam != null)
-    {
-        moduleId = remoteParam.ModuleId;
-        tabId = remoteParam.TabId;
-        remoteParamItem = GeneralUtils.EnCode(remoteParam.Record.ToXmlItem());
-    }
-    var articleid = 0;
-    if (GeneralUtils.IsNumeric(remoteParam.RemoteKey))
-    {
-        articleid = Convert.ToInt32(remoteParam.RemoteKey);
-    }
 }
-
-@if (articleid > 0)
-{
-    // we have a remote key passed, we may need to read the article and do some SEO
-
-    //var articleData = new ArticleLimpet(articleid, remoteParam.CultureCode);
-
-}
-
 
 <script type="text/javascript" src="/DesktopModules/DNNrocket/Simplisity/js/simplisity.js"></script>
 <script type="text/javascript" src="@(portalCatalog.EngineUrlWithProtocol)/DesktopModules/RocketThemes/rocketcatalog/@(portalCatalog.AppTheme.AppThemeFolder)/@(portalCatalog.AppTheme.AppVersionFolder)/js/frontend.js"></script>
@@ -51,18 +25,17 @@
 <script>
 
     $(document).ready(function () {
+        $(document).simplisityStartUp('@(portalCatalog.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action', { systemkey: 'rocketecommerce', debug: false });
 
-        $(document).simplisityStartUp('@(portalCatalog.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action', { systemkey: 'rocketcatalog', debug: false });
+        @{
+            // THESE VALUES ARE NEEDED FOR REMOTE RENDERING, POPULATE THEM ON FIRST LOAD (In the module OnInit(EventArgs e)),
+            //  THEN ADD THEM TO SESSIONPARAMS SO THEY ARE AVAILABLE FOR REMOTE SERVER RENDERING.
+        }
+        simplisity_setSessionField("pageurl", '@sessionParams.PageUrl');
+        simplisity_setSessionField("sitekey", '@sessionParams.SiteKey');
+        simplisity_setSessionField('culturecode', '@sessionParams.CultureCode');
 
     });
-
-    function sendRemoteParams@(moduleId)() {
-        // send remoteParam back to the server, so we keep all the config data.
-        // We place this in a function so if we have multiple remote modules, the correct data is set on the s-before.
-        // FOR MULTIPLE MODULES or SESSION DATA: This function MUST be called on the "s-before" simplisty event, on each button call.
-        simplisity_setParamField('remotecall', 'true');
-        simplisity_setParamField('remoteparams', '@(remoteParamItem)');
-    }
 
 </script>
 
