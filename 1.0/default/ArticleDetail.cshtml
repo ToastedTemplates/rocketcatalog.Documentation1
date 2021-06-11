@@ -17,7 +17,9 @@
     {
         info = articleData.Info;
     }
-    var portalShop = new PortalCatalogLimpet(articleData.PortalId, DNNrocketUtils.GetEditCulture());
+    var portalCatalog = new PortalCatalogLimpet(articleData.PortalId, DNNrocketUtils.GetEditCulture());
+    var appThemeSystem = new AppThemeSystemLimpet(portalCatalog.SystemKey);
+    var sessionParams = Model.SessionParamsData;
 
 }
 
@@ -26,7 +28,7 @@
     <div id="articleeditcontent" class='w3-animate-opacity '>
 
         <div class="w3-row w3-padding">
-            <div class="w3-col m2 w3-button rocket-buttonbar w3-green simplisity_click savearticlebutton langchangesave" s-cmd="articleadmin_savedata" s-post="#articledatasection" s-return=".articlepopup" s-fields='{"articleid":"@info.ItemID"}'>@ButtonText(ButtonTypes.save)</div>
+            <div class="w3-col m2 w3-button rocket-buttonbar w3-green simplisity_click savearticlebutton langchangesave" s-cmd="articleadmin_savedata" s-post="#articledatasection" s-return=".articleeditpopup" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonText(ButtonTypes.save)</div>
             <div class="w3-col m2 w3-button rocket-buttonbar w3-red simplisity_confirmclick" s-confirm="@ResourceKey("DNNrocket.delete","","confirm")" s-cmd="articleadmin_delete" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonText(ButtonTypes.delete)</div>
 
             @if (Model.GetSettingBool("saved"))
@@ -37,44 +39,27 @@
         </div>
 
         <div id="articledatasection" class="">
-            <!-- The Detail-->
-            <div id="detailDisplay" class="w3-container">
-                <div class='w3-row'>
-                    <div class='w3-half w3-padding'>
-                        <label>@ResourceKey("RC.name")</label>
-                        @TextBox(info, "genxml/textbox/name", " class='w3-input w3-border' autocomplete='off' ", "", false, 0)
-                        <label>@ResourceKey("RC.keywords")</label>
-                        @TextArea(info, "genxml/textbox/keywords", "class='' ", "", false, 0)
-                        <label>@ResourceKey("RC.summary")</label>
-                        @TextArea(info, "genxml/textbox/summary", " onkeyup='textAreaAdjust(this);' style='width:100%;overflow:hidden;' ", "", false, 0)
-                        <h3>@ResourceKey("RC.categories")</h3>
-                        @RenderTemplate("ArticleCategoryList.cshtml", "\\DesktopModules\\DNNrocketModules\\RocketCatalog", "config-w3", Model, "1.0", true)
-                        @RenderTemplate("ArticleCategorySelect.cshtml", "\\DesktopModules\\DNNrocketModules\\RocketCatalog", "config-w3", Model, "1.0", true)
+            <div class='w3-row'>
+                <div class='w3-threequarter w3-padding'>
+                    <div class="w3-quarter w3-padding">
+                        <label>@ResourceKey("RC.ref")</label>
+                        @TextBox(info, "genxml/textbox/articleref", " class='w3-input w3-border' autocomplete='off' ", "", false, 0)
                     </div>
-                    <div class='w3-half w3-padding'>                        
-                            <div class="w3-padding">
-                                <div class="w3-button w3-teal simplisity_click" s-before="beforerowdisplay" s-cmd="articleadmin_editrow" s-return="#articleedit" s-fields='{"articleid":"@info.ItemID","articlerowref":""}'><i class='fas fa-plus-circle'></i></div>
-                                <span class="w3-xlarge" >&nbsp;@ResourceKey("RC.content")</span>
-                            </div>
-                            <ul id="articlerowlistdata" class="w3-ul w3-hoverable " style="border-bottom: none;">
-                                @foreach (var articleRowData in articleData.GetArticleRows())
-                                {
-                                    <li class="categorylist w3-row simplisity_click" rowref="@articleRowData.ArticleRowRef"  s-before="beforerowdisplay" s-cmd="articleadmin_editrow" s-return=".articlepopup" s-fields='{"articleid":"@articleData.ArticleId","articlerowref":"@articleRowData.Info.GetXmlProperty("genxml/hidden/articlerowref")","track":"false"}'>
-                                        <div class="w3-rest w3-card " style="cursor: pointer;">
-                                            <div class="w3-bar w3-card " style="">
-                                                <div class="w3-bar-item">
-                                                    @articleRowData.Title 
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                }
-                            </ul>
+                    <div class="w3-threequarter w3-padding">
+                        <label>@ResourceKey("RC.name")</label>&nbsp;@EditFlag(sessionParams)
+                        @TextBox(info, "genxml/lang/genxml/textbox/articlename", " class='w3-input w3-border' autocomplete='off' ", "", false, 0)
+                    </div>
+                    <div class="w3-row w3-padding">
+                        @EditFlag(sessionParams)
+                        @EditorQuill(info, "genxml/lang/genxml/textbox/articlerichtext", "style='min-height:200px;width:100%'", "", true)
                     </div>
                 </div>
-
+                <div class='w3-quarter w3-padding'>
+                    <h3>@ResourceKey("RC.categories")</h3>
+                    @RenderTemplate("ArticleCategoryList.cshtml", appThemeSystem, Model, true)
+                    @RenderTemplate("ArticleCategorySelect.cshtml", appThemeSystem, Model, true)
+                </div>
             </div>
-
         </div>
 
         <div>
@@ -82,7 +67,7 @@
             {
                 <div class="w3-container">
                     <div class="w3-right">
-                        @RenderTemplateInfo("XmlModelDisplay.cshtml", info)
+                        @RenderXml(info)
                     </div>
                 </div>
             }
@@ -96,60 +81,13 @@
 <script>
     $(document).ready(function () {
 
-        $('#keywords').tagEditor({
+        $('#articlekeywords').tagEditor({
             delimiter: ', ', /* space and comma */
-            placeholder: '@ResourceKey("RC.keywords") ...',
+            placeholder: '@ResourceKey("RE.keywords") ...',
             removeDuplicates: false,
         });
 
-        $('.articleprocess').hide();
-        $('.articlepopup').css('height', 'auto');
-        $('.articlemodel').show();
-
-
-        var startPosition = function (e, ui) {
-            simplisity_setParamField("sourcerowref", ui.item.attr('rowref'));
-        };
-
-        var stopPosition = function (e, ui) {
-            if (typeof ui.item.prev().attr('rowref') === 'undefined' || ui.item.prev().attr('rowref') === null || ui.item.prev().attr('rowref') === '') {
-                simplisity_setParamField("destrowref", '');
-            }
-            else {
-                simplisity_setParamField("destrowref", ui.item.prev().attr('rowref'));
-            }
-                simplisity_setParamField("articleid",'@(articleData.ArticleId)');
-            $('.articlepopup').getSimplisity('/Desktopmodules/dnnrocket/api/rocket/action', 'articleadmin_moverow', '', '');
-        };
-
-
-         $("#articlerowlistdata").sortable({
-            start: startPosition,
-            beforeStop: stopPosition,
-        });
-        $("#articlerowlistdata").disableSelection();
-
-
+        rcadmin.moveToTop('#articleeditmodal');
     });
 
-
-
-    function textAreaAdjust(element) {
-      element.style.height = "1px";
-      element.style.height = (25+element.scrollHeight)+"px";
-    }
-
-    function languageChange() {1
-        $('.langchangesave').trigger("click");
-    }
-    function beforerowdisplay() {
-        // stop flicker on screen from redisplay content in model (Probably a better way to do this)
-        $('.articlepopup').height($('.articlepopup').height())
-        $('.articlemodel').hide();
-        $('.articleprocess').show();
-    }
-
 </script>
-
-
-

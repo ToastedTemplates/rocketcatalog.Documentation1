@@ -11,7 +11,7 @@
     var articleDataList = (ArticleLimpetList)Model.List.First();
     var sessionParams = (SessionParams)Model.SessionParamsData;
     var categoryDataList = (CategoryLimpetList)Model.GetDataObject("categorydatalist");
-    var categoryData = new CategoryLimpet(articleDataList.PortalCatalog.PortalId, articleDataList.SessionParamData.GetInt("searchcategoryid"));
+    var categoryData = new CategoryLimpet(articleDataList.PortalCatalog.PortalId, articleDataList.SessionParamData.GetInt("searchcategoryid"), sessionParams.CultureCode);
 
 }
 

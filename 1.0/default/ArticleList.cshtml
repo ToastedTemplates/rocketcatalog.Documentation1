@@ -7,17 +7,20 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketCatalog/App_LocalResources/")
 
-
 @{
     var articleDataList = (ArticleLimpetList)Model.List.First();
     var lp1 = 0;
     var passModel = new SimplisityRazor(articleDataList.PortalCatalog, new Dictionary<string, string>());
+    var appThemeSystem = new AppThemeSystemLimpet("rocketcatalog");
+    var sessionParams = Model.SessionParamsData;
 }
+
+@RenderTemplate("Popups.cshtml", appThemeSystem, Model, false)
 
 <div class='w3-animate-opacity'>
 
     <div class="w3-row w3-padding">
-        <div class="w3-col m2 w3-button rocket-buttonbar w3-green simplisity_click" s-after="showpopup" s-cmd="articleadmin_addarticle" s-return=".articlepopup" s-fields='{"articleid":"-1"}'>@ButtonText(ButtonTypes.add)</div>
+        <div class="w3-col m2 w3-button rocket-buttonbar w3-green simplisity_click" s-cmd="articleadmin_addarticle" s-return=".articleeditpopup" s-fields='{"articleid":"-1","sitekey":"@(articleDataList.PortalCatalog.SiteKey)"}'>@ButtonText(ButtonTypes.add)</div>
     </div>
 
     <div class="w3-bar w3-card searchdata w3-padding">
@@ -50,6 +53,7 @@
 
     <div id="datasection" class="">
 
+
         <div id="datalist2" class="w3-row w3-padding  w3-margin-top ">
             @{
                 lp1 = 0;
@@ -60,15 +64,13 @@
                 @foreach (ArticleLimpet articleData in articleDataList.GetArticleList())
                 {
                     lp1 += 1;
-                    <li class="categorylist w3-row ">
-                        <div class="w3-rest w3-card ">
+                    <li class="categorylist w3-row simplisity_click" s-cmd="articleadmin_editarticle" s-return=".articleeditpopup" s-fields='{"articleid":"@articleData.ArticleId","track":"false"}'>
+                        <div class="w3-rest w3-card " style="cursor: pointer;">
                             <div class="w3-bar w3-card " style="">
-
-                                <div class="w3-bar-item simplisity_click" s-after="showpopup" s-cmd="articleadmin_editarticle" s-return=".articlepopup" s-fields='{"articleid":"@articleData.ArticleId","track":"false"}' style="cursor: pointer;">
-                                    @ButtonIcon(ButtonTypes.edit)
-                                </div>
-
                                 <div class="w3-bar-item">
+                                    <div class="w3-tiny">
+                                        @articleData.Ref
+                                    </div>
                                     @articleData.Name
                                 </div>
                             </div>
@@ -80,25 +82,10 @@
 
         </div>
 
-
-        @RenderTemplate("ArticlePaging.cshtml", "\\DesktopModules\\DNNrocketModules\\RocketCatalog", "config-w3", Model, "1.0", true)
+        @RenderTemplate("ArticlePaging.cshtml", articleDataList.PortalCatalog.AppTheme, Model, true)
 
     </div>
 </div>
-
-<div id="articlemodel" class="w3-modal ">
-    <div class="w3-modal-content w3-animate-opacity" style="width:95%;">
-        <header class="w3-container w3-theme-d4">
-            <div class="w3-button w3-display-topright simplisity_click" s-cmd="articleadmin_editlist" s-fields=''>
-                &times;
-            </div>
-            <h2>@ResourceKey("RC.article")</h2>
-        </header>
-        <div class="w3-container articlepopup">
-        </div>
-    </div>
-</div>
-
 
 <script>
     $(document).ready(function () {
@@ -142,9 +129,6 @@
 
     function languageChange() {
         $('.dosearch').trigger("click");
-    }
-    function showpopup() {
-        $('#articlemodel').show();
     }
 
 </script>
