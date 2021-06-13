@@ -64,19 +64,19 @@
                 @foreach (ArticleLimpet articleData in articleDataList.GetArticleList())
                 {
                     lp1 += 1;
-                    <li class="categorylist w3-row simplisity_click" s-cmd="articleadmin_editarticle" s-return=".articleeditpopup" s-fields='{"articleid":"@articleData.ArticleId","track":"false"}'>
-                        <div class="w3-rest w3-card " style="cursor: pointer;">
-                            <div class="w3-bar w3-card " style="">
-                                <div class="w3-bar-item">
-                                    <div class="w3-tiny">
-                                        @articleData.Ref
-                                    </div>
-                                    @articleData.Name
+                <li class="categorylist w3-row simplisity_click" s-cmd="articleadmin_editarticle" s-return=".articleeditpopup" s-fields='{"articleid":"@articleData.ArticleId","track":"false"}'>
+                    <div class="w3-rest w3-card " style="cursor: pointer;">
+                        <div class="w3-bar w3-card " style="">
+                            <div class="w3-bar-item">
+                                <div class="w3-tiny">
+                                    @articleData.Ref
                                 </div>
+                                @articleData.Name
                             </div>
                         </div>
+                    </div>
 
-                    </li>
+                </li>
                 }
             </ul>
 

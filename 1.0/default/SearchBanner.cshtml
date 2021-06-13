@@ -9,22 +9,14 @@
 
 
 @{
-    var remoteParam = (RemoteLimpet)Model.GetDataObject("remoteparam");
-    // We need the moduleid, the first remote call will have the moduleid, subsequent call need to have the remote module passed by the s-field
-    var moduleId = Model.ModuleId;
-    var tabId = Model.TabId;
-    if (remoteParam != null)
-    {
-        moduleId = remoteParam.ModuleId;
-        tabId = remoteParam.TabId;
-    }
-
+    var moduleRef = Model.ModuleRef;
+    var sessionParams = Model.SessionParamsData;
 }
 
-<header class="w3-row w3-top" style="z-index: 99;">
+<div>
 
-    <div class="w3-bar w3-card searchdata  w3-white w3-padding">
-        <div class="w3-bar-item w3-col m4 " style='width: 360px'>
+    <div class="w3-bar searchdata w3-padding">
+        <div class="w3-bar-item w3-col m10 " style=''>
             <div class="w3-bar">
                 <input id="searchcategoryid" type="hidden" value="" class="simplisity_sessionfield" />
                 @TextBox(new SimplisityInfo(), "genxml/textbox/searchtext", "class='w3-bar-item w3-input w3-border w3-light-grey simplisity_sessionfield actionentrykey'  autocomplete='off' ")
@@ -34,11 +26,11 @@
         </div>
 
         <div class="w3-bar-item w3-col m2 w3-right w3-hide-small w3-margin-left" style="width: 100px">
-            @DropDownList(new SimplisityInfo(), "genxml/hidden/pagesize", "8,16,32,64,128", "8,16,32,64,128", "class='w3-input w3-border w3-light-grey simplisity_sessionfield simplisity_change ' s-before='sendRemoteParams" + moduleId + "' s-systemkey='rocketcatalog' s-sessionfield='#searchtext,#pagesize,#orderbyref' s-return='#simplisitymodulewrapper" + moduleId + "'  s-cmd='rocketcatalog_public' s-post='.searchdata'  s-fields='{\"systemkey\":\"rocketcatalog\"}' title='" + @ResourceKey("DNNrocket.pagesize", remoteParam.CultureCode) + "'", "32")
+            @DropDownList(new SimplisityInfo(), "genxml/hidden/pagesize", "8,16,32,64,128", "8,16,32,64,128", "class='w3-input w3-border w3-light-grey simplisity_sessionfield simplisity_change ' s-before='sendRemoteParams" + moduleRef + "' s-systemkey='rocketcatalog' s-sessionfield='#searchtext,#pagesize,#orderbyref' s-return='#simplisitymodulewrapper" + moduleRef + "'  s-cmd='rocketcatalog_public' s-post='.searchdata'  s-fields='{\"systemkey\":\"rocketcatalog\"}' title='" + @ResourceKey("DNNrocket.pagesize", sessionParams.CultureCode) + "'", "32")
         </div>
     </div>
 
     <!-- Element to trigger simplisity call from JS event -->
-    <span class="w3-hide simplisity_click triggersearch" s-before="sendRemoteParams@(moduleId)" s-sessionfield='#searchtext,#pagesize,#searchcategoryid' s-cmd="rocketcatalog_public" s-post=".searchdata" s-return='#simplisitymodulewrapper@(moduleId)' s-fields='{"systemkey":"rocketcatalog"}'></span>
+    <span class="w3-hide simplisity_click triggersearch" s-before="sendRemoteParams@(moduleRef)" s-sessionfield='#searchtext,#pagesize,#searchcategoryid' s-cmd="rocketcatalog_public" s-post=".searchdata" s-return='#simplisitymodulewrapper@(moduleRef)' s-fields='{"systemkey":"rocketcatalog"}'></span>
 
-</header>
+</div>

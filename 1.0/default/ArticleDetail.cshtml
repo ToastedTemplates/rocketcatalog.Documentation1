@@ -28,7 +28,7 @@
     <div id="articleeditcontent" class='w3-animate-opacity '>
 
         <div class="w3-row w3-padding">
-            <div class="w3-col m2 w3-button rocket-buttonbar w3-green simplisity_click savearticlebutton langchangesave" s-cmd="articleadmin_savedata" s-post="#articledatasection" s-return=".articleeditpopup" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonText(ButtonTypes.save)</div>
+            <div class="w3-col m2 w3-button rocket-buttonbar w3-green simplisity_click savearticlebutton langchangesave" s-before="articlerichtextSave" s-cmd="articleadmin_savedata" s-post="#articledatasection" s-return=".articleeditpopup" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonText(ButtonTypes.save)</div>
             <div class="w3-col m2 w3-button rocket-buttonbar w3-red simplisity_confirmclick" s-confirm="@ResourceKey("DNNrocket.delete","","confirm")" s-cmd="articleadmin_delete" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonText(ButtonTypes.delete)</div>
 
             @if (Model.GetSettingBool("saved"))
@@ -43,15 +43,15 @@
                 <div class='w3-threequarter w3-padding'>
                     <div class="w3-quarter w3-padding">
                         <label>@ResourceKey("RC.ref")</label>
-                        @TextBox(info, "genxml/textbox/articleref", " class='w3-input w3-border' autocomplete='off' ", "", false, 0)
+                        @TextBox(info, articleData.RefXPath, " class='w3-input w3-border' autocomplete='off' ", "", false, 0)
                     </div>
                     <div class="w3-threequarter w3-padding">
                         <label>@ResourceKey("RC.name")</label>&nbsp;@EditFlag(sessionParams)
-                        @TextBox(info, "genxml/lang/genxml/textbox/articlename", " class='w3-input w3-border' autocomplete='off' ", "", false, 0)
+                        @TextBox(info, articleData.NameXPath, " class='w3-input w3-border' autocomplete='off' ", "", false, 0)
                     </div>
                     <div class="w3-row w3-padding">
                         @EditFlag(sessionParams)
-                        @EditorQuill(info, "genxml/lang/genxml/textbox/articlerichtext", "style='min-height:200px;width:100%'", "", true)
+                        @CKEditor(info, articleData.RichTextXPath)
                     </div>
                 </div>
                 <div class='w3-quarter w3-padding'>

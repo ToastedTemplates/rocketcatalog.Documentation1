@@ -12,63 +12,48 @@
     var sessionParams = (SessionParams)Model.SessionParamsData;
     var categoryDataList = (CategoryLimpetList)Model.GetDataObject("categorydatalist");
     var categoryData = new CategoryLimpet(articleDataList.PortalCatalog.PortalId, articleDataList.SessionParamData.GetInt("searchcategoryid"), sessionParams.CultureCode);
-
 }
 
-@RenderTemplate("SearchBanner.cshtml", "/DesktopModules/RocketThemes/rocketcatalog", articleDataList.PortalCatalog.AppTheme.AppThemeFolder, Model, "1.0", true)
 
+<!-- Header -->
+<div class="w3-container" style="margin-top:80px" id="showcase">
+    <h1 class="w3-xxlarge w3-text-theme"><b>@categoryData.Name</b></h1>
+</div>
 
-<!-- Sidebar/menu -->
-@RenderTemplate("CategorySideMenu.cshtml", "/DesktopModules/RocketThemes/rocketcatalog", articleDataList.PortalCatalog.AppTheme.AppThemeFolder, Model, "1.0", true)
+@RenderTemplate("SearchBanner.cshtml", articleDataList.PortalCatalog.AppTheme, Model)
 
-    <div class="w3-main" style="margin-left:340px;margin-right:40px;margin-top:72px">
-
-        <!-- Header -->
-        <div class="w3-container" style="margin-top:80px" id="showcase">
-            <h1 class="w3-xxlarge w3-text-theme"><b>@categoryData.Name</b></h1>
-        </div>
-        <div class="w3-margin-left">
-            @BreakOf(categoryData.Summary)
-            @HtmlOf(categoryData.RichText)
-        </div>
-
-
-        <div id="datasection" class="w3-topbar">
-
-
-            <ul class="w3-ul w3-hoverable w3=-border-bottom">
-                @{
-                    var lp1 = 0;
-                }
-                @foreach (ArticleLimpet articleData in articleDataList.GetArticleList())
-                {
-                    lp1 += 1;
-                    <li class="simplisity_click" s-cmd="rocketcatalog_public" s-return='#simplisitymodulewrapper' s-post=".searchdata" s-fields='{"articleid":"@(articleData.ArticleId)","systemkey":"rocketcatalog","track":"true"}' style="cursor:pointer;">
-                        @articleData.Name
-                    </li>
-                }
-            </ul>
-
-
-            @RenderTemplate("Paging.cshtml", "/DesktopModules/RocketThemes/rocketcatalog", articleDataList.PortalCatalog.AppTheme.AppThemeFolder, Model, "1.0", true)
-
-            <div class="w3-row w3-padding w3-right">
-                <p class="w3-left w3-text-grey">@articleDataList.RecordCount @ResourceKey("RC.articles", sessionParams.CultureCode)</p>
-            </div>
-
-        </div>
-
-
-
-
-        <!-- End page content -->
+<div class="w3-row">
+    <div class="w3-quarter">
+        @RenderTemplate("CategorySideMenu.cshtml", articleDataList.PortalCatalog.AppTheme, Model)
     </div>
+    <div class="w3-threequarter">
 
+        <ul class="w3-ul w3-hoverable w3=-border-bottom">
+            @{
+                var lp1 = 0;
+            }
+            @foreach (ArticleLimpet articleData in articleDataList.GetArticleList())
+            {
+                lp1 += 1;
+                <li class="simplisity_click" s-cmd="rocketcatalog_public" s-return='#simplisitymodulewrapper' s-post=".searchdata" s-fields='{"articleid":"@(articleData.ArticleId)","systemkey":"rocketcatalog","track":"true"}' style="cursor:pointer;">
+                    @articleData.Name
+                </li>
+            }
+        </ul>
+
+        @RenderTemplate("Paging.cshtml", articleDataList.PortalCatalog.AppTheme, Model)
+
+        <div class="w3-row w3-padding w3-right">
+            <p class="w3-left w3-text-grey">@articleDataList.RecordCount @ResourceKey("RC.articles", sessionParams.CultureCode)</p>
+        </div>
+
+    </div>
+</div>
 
 <script>
 
     $(document).ready(function () {
-        activatedocumentready('@(articleDataList.PortalCatalog.EngineUrlWithProtocol)');
+        activatedocumentready( '@(articleDataList.PortalCatalog.EngineUrlWithProtocol)' )
     });
 
 </script>
