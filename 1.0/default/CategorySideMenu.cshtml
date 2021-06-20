@@ -15,9 +15,7 @@
     var portalCatalog = new PortalCatalogLimpet(categoryDataList.PortalId, categoryDataList.CultureCode);
 }
 
-<h3 style="margin-top:30px;">@ResourceKey("RE.categories", sessionParams.CultureCode)</h3>
-
-<div class="w3-bar-block w3-theme-l4 w3-mobile w3-margin-top">
+<div class="w3-bar-block w3-theme-l4">
     <a href="@sessionParams.PageUrl" catid="0" class="ajaxcategory w3-bar-item w3-button w3-theme">
         @ResourceKey("RC.all")
     </a>
@@ -46,11 +44,12 @@
             }
             var productListUrl = sessionParams.PageUrl + categoryData.UrlTokens(portalCatalog.ArticleListPageUrl);
 
-            <tr pushurl="@productListUrl" class=" w3-button treegrid-@(categoryData.CategoryId)  @(parentclass) ajaxcategory"  catid="@categoryData.CategoryId" style="width:100%">
-                <td>
-                    <a href="@productListUrl" class="" style="pointer-events: none;">@categoryData.Name</a>
-                </td>
-            </tr>
+        <tr class="treegrid-@(categoryData.CategoryId)  @(parentclass) ">
+            <td></td>
+            <td pushurl="@productListUrl" class="ajaxcategory" catid="@categoryData.CategoryId" style="width:100%" >
+                <a href="@productListUrl" class="" style="pointer-events: none;">@categoryData.Name</a>
+            </td>
+        </tr>
         }
     </table>
 
