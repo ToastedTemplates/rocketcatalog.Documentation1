@@ -4,34 +4,77 @@
 @using RocketCatalog.Components;
 @using DNNrocketAPI.Components;
 
+
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketCatalog/App_LocalResources/")
 
 @{
     var categoryDataList = (CategoryLimpetList)Model.GetDataObject("categorydatalist");
+    var sessionParams = (SessionParams)Model.SessionParamsData;
+    var selectedcolor = "";
+    var portalCatalog = new PortalCatalogLimpet(categoryDataList.PortalId, categoryDataList.CultureCode);
 }
 
+<h3 style="margin-top:30px;">@ResourceKey("RE.categories", sessionParams.CultureCode)</h3>
 
-<!-- Sidebar/menu -->
-<div class="w3-margin-top">
-
-    <div class=" w3-button w3-left-align " onclick="$('#searchcategoryid').val('0'); $('.dosearch').trigger('click');" style="width:100%">
+<div class="w3-bar-block w3-theme-l4 w3-mobile w3-margin-top">
+    <a href="@sessionParams.PageUrl" catid="0" class="ajaxcategory w3-bar-item w3-button w3-theme">
         @ResourceKey("RC.all")
-    </div>
+    </a>
+
     <table class="categorytree">
         @foreach (var categoryData in categoryDataList.GetCategoryTree())
         {
+            selectedcolor = "";
+            var toplevelclass = "";
+            if (sessionParams.GetInt("searchcategoryid") == categoryData.CategoryId)
+            {
+                selectedcolor = "w3-theme";
+            }
+            else
+            {
+                if (categoryData.Level == 0)
+                {
+                    toplevelclass = "catlevel1";
+                }
+            }
+
             var parentclass = "";
             if (categoryData.ParentItemId > 0)
             {
                 parentclass = "treegrid-parent-" + categoryData.ParentItemId;
             }
-            <tr class=" w3-button treegrid-@(categoryData.CategoryId)  @(parentclass)" onclick="$('#searchcategoryid').val('@(categoryData.CategoryId)'); $('.triggersearch').trigger('click');" style="width:100%">
+            var productListUrl = sessionParams.PageUrl + categoryData.UrlTokens(portalCatalog.ArticleListPageUrl);
+
+            <tr pushurl="@productListUrl" class=" w3-button treegrid-@(categoryData.CategoryId)  @(parentclass) ajaxcategory"  catid="@categoryData.CategoryId" style="width:100%">
                 <td>
-                    @categoryData.Name
+                    <a href="@productListUrl" class="" style="pointer-events: none;">@categoryData.Name</a>
                 </td>
             </tr>
         }
     </table>
+
 </div>
 
+<script>
+
+    $(document).ready(function () {
+
+        // CATEGORY EVENTS
+        $('.ajaxcategory').unbind("click");
+        $('.ajaxcategory').click(function (event) {
+            event.preventDefault();
+
+            // add to browser bar and history
+            var stateObj = { "": "" };
+            history.pushState(stateObj, "Title", $(this).attr('pushurl'));
+
+            // we need "SearchBanner.cshtml" to be loaded on the page.
+            $('#searchcategoryid').val($(this).attr("catid"));
+            $('.triggersearch').trigger('click');
+
+        });
+
+    });
+
+</script>

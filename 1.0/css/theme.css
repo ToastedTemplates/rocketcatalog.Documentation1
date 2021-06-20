@@ -1,0 +1,18 @@
+﻿
+.treegrid-expander-expanded:before {
+    font-family: "Material Icons" !important;
+    content: "\e5c7" !important;
+    display: inline-block;
+    padding-right: 8px !important;
+    vertical-align: middle;
+    font-weight: 900;
+}
+
+.treegrid-expander-collapsed:before {
+    font-family: "Material Icons" !important;
+    content: "\e5df" !important;
+    display: inline-block;
+    padding-right: 8px !important;
+    vertical-align: middle;
+    font-weight: 900;
+}
