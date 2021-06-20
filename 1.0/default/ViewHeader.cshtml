@@ -15,7 +15,6 @@
 
 <link rel="stylesheet" href="/DesktopModules/DNNrocket/css/w3.css">
 <link rel="stylesheet" href="@(portalCatalog.EngineUrlWithProtocol)/DesktopModules/DNNrocket/API/Themes/config-w3/1.0/css/@(portalCatalog.ColorFrontTheme)">
-<link rel="stylesheet" href="@(portalCatalog.EngineUrlWithProtocol)/DesktopModules/RocketThemes/@(portalCatalog.AppTheme.AppThemeFolder)/@(portalCatalog.AppTheme.AppVersionFolder)/css/theme.css">
 
 <script type="text/javascript" src="@(portalCatalog.EngineUrlWithProtocol)/DesktopModules/RocketThemes/@(portalCatalog.AppTheme.AppThemeFolder)/@(portalCatalog.AppTheme.AppVersionFolder)/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="@(portalCatalog.EngineUrlWithProtocol)/DesktopModules/RocketThemes/@(portalCatalog.AppTheme.AppThemeFolder)/@(portalCatalog.AppTheme.AppVersionFolder)/js/jquery.treegrid.min.js"></script>
@@ -24,6 +23,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
+<link rel="stylesheet" href="@(portalCatalog.EngineUrlWithProtocol)/DesktopModules/RocketThemes/@(portalCatalog.AppTheme.AppThemeFolder)/@(portalCatalog.AppTheme.AppVersionFolder)/css/theme.css">
 
 <script>
 
@@ -37,6 +37,8 @@
         simplisity_setSessionField("pageurl", '@sessionParams.PageUrl');
         simplisity_setSessionField("sitekey", '@sessionParams.SiteKey');
         simplisity_setSessionField('culturecode', '@sessionParams.CultureCode');
+
+        simplisity_setParamField("reload", true);  // This will flag that a reload is done.  The Server side code will get the last command tracked.
 
     });
 

@@ -12,6 +12,8 @@
     var sessionParams = (SessionParams)Model.SessionParamsData;
     var categoryDataList = (CategoryLimpetList)Model.GetDataObject("categorydatalist");
     var categoryData = new CategoryLimpet(articleDataList.PortalCatalog.PortalId, articleDataList.SessionParamData.GetInt("searchcategoryid"), sessionParams.CultureCode);
+    var portalCatalog = new PortalCatalogLimpet(categoryDataList.PortalId, categoryDataList.CultureCode);
+    var moduleRef = Model.ModuleRef;
 }
 
 
@@ -23,10 +25,10 @@
 @RenderTemplate("SearchBanner.cshtml", articleDataList.PortalCatalog.AppTheme, Model)
 
 <div class="w3-row">
-    <div class="w3-quarter">
+    <div class="w3-quarter w3-padding-small">
         @RenderTemplate("CategorySideMenu.cshtml", articleDataList.PortalCatalog.AppTheme, Model)
     </div>
-    <div class="w3-threequarter">
+    <div class="w3-threequarter w3-padding-small">
 
         <ul class="w3-ul w3-hoverable w3-border-bottom">
             @{
@@ -35,8 +37,10 @@
             @foreach (ArticleLimpet articleData in articleDataList.GetArticleList())
             {
                 lp1 += 1;
-                <li class="simplisity_click" s-cmd="rocketcatalog_public" s-return='#simplisitymodulewrapper' s-post=".searchdata" s-fields='{"articleid":"@(articleData.ArticleId)","systemkey":"rocketcatalog","track":"true"}' style="cursor:pointer;">
-                    @articleData.Name
+                var productListUrl = sessionParams.PageUrl + articleData.UrlTokens(portalCatalog.ArticleDetailPageUrl);
+
+                <li pushurl="@productListUrl" class="nonbulletlist a-ajaxarticle" s-cmd="rocketcatalog_public"  s-return='#simplisitymodulewrapper@(moduleRef)' s-post=".searchdata" s-fields='{"articleid":"@(articleData.ArticleId)","systemkey":"rocketcatalog","track":"true"}' style="cursor:pointer;">
+                    <a href="@productListUrl" class="" style="pointer-events: none;">@articleData.Name</a>
                 </li>
             }
         </ul>
@@ -53,7 +57,23 @@
 <script>
 
     $(document).ready(function () {
-        activatedocumentready( '@(articleDataList.PortalCatalog.EngineUrlWithProtocol)' )
+
+        activatedocumentready('@(articleDataList.PortalCatalog.EngineUrlWithProtocol)')
+
+        // CATEGORY EVENTS
+        $('.a-ajaxarticle').unbind("click");
+        $('.a-ajaxarticle').click(function (event) {
+            event.preventDefault();
+
+            // add to browser bar and history
+            var stateObj = { "": "" };
+            history.pushState(stateObj, "Title", $(this).attr('pushurl'));
+
+            simplisity_callserver(this)
+
+        });
+
+
     });
 
 </script>

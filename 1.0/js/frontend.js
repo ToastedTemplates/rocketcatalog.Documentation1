@@ -43,8 +43,6 @@ function activatedocumentready(engineUrlWithProtocol) {
 
     $('.catalog-container').activateSimplisityPanel(engineUrlWithProtocol + '/Desktopmodules/dnnrocket/api/rocket/action');    
 
-    simplisity_setParamField("reload", true);  // This will flag that a reload is done.  The Server side code will get the last command tracked.
-
 }
 
 
