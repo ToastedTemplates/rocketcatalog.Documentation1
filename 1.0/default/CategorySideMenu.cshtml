@@ -44,10 +44,11 @@
             }
             var productListUrl = sessionParams.PageUrl + categoryData.UrlTokens(portalCatalog.ArticleListPageUrl);
 
-        <tr class="treegrid-@(categoryData.CategoryId)  @(parentclass) ">
-            <td></td>
-            <td pushurl="@productListUrl" class="ajaxcategory" catid="@categoryData.CategoryId" style="width:100%" >
-                <a href="@productListUrl" class="" style="pointer-events: none;">@categoryData.Name</a>
+        <tr class="treegrid-@(categoryData.CategoryId)  @(parentclass) " >
+            <td>
+                <span pushurl="@productListUrl" class="ajaxcategory" catid="@categoryData.CategoryId" style="width:100%; cursor:pointer;">
+                    <a href="@productListUrl" class="" style="pointer-events: none;">@categoryData.Name</a>
+                </span>
             </td>
         </tr>
         }
