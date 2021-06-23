@@ -20,7 +20,16 @@
 
 <div class="w3-row">
     <div class="w3-quarter w3-padding-small">
-        @RenderTemplate("CategorySideMenu.cshtml", articleDataList.PortalCatalog.AppTheme, Model)
+
+        @if (portalCatalog.GetSettingBool("TreeView"))
+        {
+            @RenderTemplate("CategorySideMenu.cshtml", articleDataList.PortalCatalog.AppTheme, Model)
+        }
+        else
+        {
+            <h1>QWERTYU</h1>
+        }
+
     </div>
     <div class="w3-threequarter w3-padding-small">
 
