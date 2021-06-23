@@ -1,0 +1,24 @@
+  <genxml>
+    <views list="true">      
+      <genxml>
+        <name>Full View</name>
+        <cmd>rocketcatalog_public</cmd>
+      </genxml>
+      <genxml>
+        <name>Category Menu</name>
+        <cmd>rocketcatalog_publicmenu</cmd>
+      </genxml>
+      <genxml>
+        <name>Article View</name>
+        <cmd>rocketcatalog_publicarticle</cmd>
+      </genxml>
+    </views>
+    <settingsdata list="true">
+      <genxml>
+        <textbox>
+          <key>TreeView</key>
+          <value>True</value>
+        </textbox>
+      </genxml>
+    </settingsdata>
+  </genxml>
