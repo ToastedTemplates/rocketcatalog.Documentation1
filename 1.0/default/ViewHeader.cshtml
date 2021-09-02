@@ -5,30 +5,31 @@
 @using DNNrocketAPI.Components;
 
 @{
-    var portalCatalog = (PortalCatalogLimpet)Model.List.First();
+    var portalData = (PortalCatalogLimpet)Model.List.First();
     var sessionParams = (SessionParams)Model.SessionParamsData;
     var paramInfo = (SimplisityInfo)Model.GetDataObject("paraminfo");
 }
 
-<script type="text/javascript" src="/DesktopModules/DNNrocket/Simplisity/js/simplisity.js"></script>
-<script type="text/javascript" src="@(portalCatalog.EngineUrlWithProtocol)/DesktopModules/RocketThemes/@(portalCatalog.AppTheme.AppThemeFolder)/@(portalCatalog.AppTheme.AppVersionFolder)/js/frontend.js"></script>
+<link rel="stylesheet" href="@(sessionParams.EngineURL)@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/css/w3.css")">
 
-<link rel="stylesheet" href="/DesktopModules/DNNrocket/css/w3.css">
-<link rel="stylesheet" href="@(portalCatalog.EngineUrlWithProtocol)/DesktopModules/DNNrocket/API/Themes/config-w3/1.0/css/@(portalCatalog.ColorFrontTheme)">
+<link rel="stylesheet" href="@(sessionParams.EngineURL)@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/API/Themes/config-w3/1.0/css/" + portalData.ColorFrontTheme)">
+<script type="text/javascript" src="@(sessionParams.EngineURL)@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/Simplisity/js/simplisity.js")"></script>
+<script type="text/javascript" src="@(sessionParams.EngineURL)@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/RocketThemes/" + portalData.AppTheme.AppThemeFolder + "/" + portalData.AppTheme.AppVersionFolder + "/js/frontend.js")"></script>
+<link rel="stylesheet" href="@(sessionParams.EngineURL)@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/RocketThemes/" + portalData.AppTheme.AppThemeFolder + "/" + portalData.AppTheme.AppVersionFolder + "/css/theme.css")">
+<script type="text/javascript" src="@(sessionParams.EngineURL)@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/js/jquery.validate.min.js")"></script>
 
-<script type="text/javascript" src="@(portalCatalog.EngineUrlWithProtocol)/DesktopModules/RocketThemes/@(portalCatalog.AppTheme.AppThemeFolder)/@(portalCatalog.AppTheme.AppVersionFolder)/js/jquery.cookie.js"></script>
-<script type="text/javascript" src="@(portalCatalog.EngineUrlWithProtocol)/DesktopModules/RocketThemes/@(portalCatalog.AppTheme.AppThemeFolder)/@(portalCatalog.AppTheme.AppVersionFolder)/js/jquery.treegrid.min.js"></script>
-<link rel="stylesheet" href="@(portalCatalog.EngineUrlWithProtocol)/DesktopModules/RocketThemes/@(portalCatalog.AppTheme.AppThemeFolder)/@(portalCatalog.AppTheme.AppVersionFolder)/css/jquery.treegrid.css">
+@if (DNNrocketUtils.GetLanguageCode(sessionParams.CultureCode) != "en")
+{
+    <script type="text/javascript" src="@(sessionParams.EngineURL)@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/js/localization/messages_" + DNNrocketUtils.GetCurrentLanguageCode() + ".js")"></script>
+}
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-<link rel="stylesheet" href="@(portalCatalog.EngineUrlWithProtocol)/DesktopModules/RocketThemes/@(portalCatalog.AppTheme.AppThemeFolder)/@(portalCatalog.AppTheme.AppVersionFolder)/css/theme.css">
-
 <script>
 
     $(document).ready(function () {
-        $(document).simplisityStartUp('@(portalCatalog.EngineUrlWithProtocol)/Desktopmodules/dnnrocket/api/rocket/action', { systemkey: 'rocketecommerce', debug: false });
+        $(document).simplisityStartUp('@sessionParams.ApiUrl', { systemkey: 'rocketcatalog', debug: false });
 
         @{
             // THESE VALUES ARE NEEDED FOR REMOTE RENDERING, POPULATE THEM ON FIRST LOAD (In the module OnInit(EventArgs e)),
@@ -37,8 +38,9 @@
         simplisity_setSessionField("pageurl", '@sessionParams.PageUrl');
         simplisity_setSessionField("sitekey", '@sessionParams.SiteKey');
         simplisity_setSessionField('culturecode', '@sessionParams.CultureCode');
-
-        simplisity_setParamField("reload", true);  // This will flag that a reload is done.  The Server side code will get the last command tracked.
+        simplisity_setSessionField('moduleid', '@sessionParams.ModuleId');
+        simplisity_setSessionField('tabid', '@sessionParams.TabId');
+        simplisity_setSessionField('apiurl', '@sessionParams.ApiUrl');
 
     });
 

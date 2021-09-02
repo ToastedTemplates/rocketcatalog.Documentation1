@@ -10,7 +10,7 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
 
 @{
-    var articleDataList = (ArticleLimpetList)Model.List.First();
+    var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
     var sessionParams = (SessionParams)Model.SessionParamsData;
 
 

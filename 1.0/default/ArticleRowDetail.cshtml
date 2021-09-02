@@ -12,11 +12,12 @@
 
 @{
     var info = new SimplisityInfo();
-    var articleRowData = (ArticleRowLimpet)Model.List.First();
+    var articleRowData = (ArticleLimpet)Model.List.First();
     if (articleRowData.Info != null)
     {
         info = articleRowData.Info;
     }
+    var sessionParams = (SessionParams)Model.SessionParamsData;
 }
 
 <div id="articleeditrow" class='w3-display-container w3-animate-opacity simplisity_panel'>
@@ -25,11 +26,11 @@
 
         <div class="w3-row w3-padding">
             <div class="w3-col m2 w3-button rocket-buttonbar w3-khaki simplisity_click" s-before="closerowdisplay" s-cmd="articleadmin_editarticle" s-return=".articlepopup" s-fields='{"articleid":"@articleRowData.ArticleId","track":"false"}'>@ButtonText(ButtonTypes.back)</div>
-            <div class="w3-col m2 w3-button rocket-buttonbar w3-green savearticlerowbutton simplisity_click" s-list=".@articleRowData.ImageListName,.@articleRowData.DocumentListName,.@articleRowData.LinkListName" s-cmd="articleadmin_updaterow" s-post="#articlerowdatasection" s-return=".articlepopup" s-fields='{"articleid":"@articleRowData.ArticleId","articlerowref":"@articleRowData.ArticleRowRef"}'>@ButtonText(ButtonTypes.save)</div>
+            <div class="w3-col m2 w3-button rocket-buttonbar w3-green savearticlerowbutton simplisity_click" s-list=".@articleRowData.ImageListName,.@articleRowData.DocumentListName,.@articleRowData.LinkListName" s-cmd="articleadmin_updaterow" s-post="#articlerowdatasection" s-return=".articlepopup" s-fields='{"articleid":"@articleRowData.ArticleId","articlerowref":"@articleRowData.Ref"}'>@ButtonText(ButtonTypes.save)</div>
 
-            @if (articleRowData.ArticleRowRef != "")
+            @if (articleRowData.Ref != "")
             {
-                <div class="w3-col m2 w3-button rocket-buttonbar w3-red simplisity_confirmclick" s-confirm="@ResourceKey("DNNrocket.delete","","confirm")"  s-return=".articlepopup" s-cmd="articleadmin_deleterow" s-fields='{"articleid":"@articleRowData.ArticleId","articlerowref":"@articleRowData.ArticleRowRef"}'>@ButtonText(ButtonTypes.delete)</div>
+                <div class="w3-col m2 w3-button rocket-buttonbar w3-red simplisity_confirmclick" s-confirm="@ResourceKey("DNNrocket.delete","","confirm")"  s-return=".articlepopup" s-cmd="articleadmin_deleterow" s-fields='{"articleid":"@articleRowData.ArticleId","articlerowref":"@articleRowData.Ref"}'>@ButtonText(ButtonTypes.delete)</div>
             }
 
 
@@ -68,8 +69,8 @@
 
                     <div id="htmltext" class='w3-row sectionname' style="display:none">
                         <div class='w3-col m12 w3-padding'>
-                            @EditFlag()
-                            @CKEditor(info, "genxml/lang/genxml/textbox/richtext", "", "", true, 0)
+                            @EditFlag(sessionParams)
+                            @CKEditor(info, "genxml/lang/genxml/textbox/richtext")
                         </div>
                     </div>
 

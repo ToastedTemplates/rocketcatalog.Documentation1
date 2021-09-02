@@ -36,13 +36,6 @@ function activatedocumentready(engineUrlWithProtocol) {
         $('#searchtext').addClass('w3-border-orange');
     }
 
-    $('.categorytree').treegrid({
-        'initialState': 'collapsed',
-        'saveState': true,
-    });
-
-    $('.catalog-container').activateSimplisityPanel(engineUrlWithProtocol + '/Desktopmodules/dnnrocket/api/rocket/action');    
-
 }
 
 

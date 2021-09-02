@@ -8,7 +8,7 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketCatalog/App_LocalResources/")
 
 @{
-    var articleData = (ArticleLimpet)Model.List.First();
+    var articleData = (ArticleLimpet)Model.GetDataObject("articledata");
     var categoryDataList = (CategoryLimpetList)Model.GetDataObject("categorydatalist");
 
     // We need the moduleid, the first remote call will have the moduleid, subsequent call need to have the remote module passed by the s-field
