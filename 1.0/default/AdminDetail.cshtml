@@ -27,7 +27,7 @@
 
     <div id="articleeditcontent" class='w3-animate-opacity '>
 
-        <div class="w3-bar w3-margin">
+        <div class="w3-bar  w3-padding">
             <div class="w3-button simplisity_click" s-cmd="articleadmin_editlist" s-fields=''>@ButtonIcon(ButtonTypes.back)</div>
             <div class="w3-button w3-theme-action simplisity_click savearticlebutton langchangesave" s-before="articlerichtextSave" s-cmd="articleadmin_savedata" s-post="#articledatasection" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonText(ButtonTypes.save)</div>
             @if (articleData.Exists)
@@ -50,13 +50,11 @@
                     </div>
                     <div class="w3-row w3-padding">
                         @EditFlag(sessionParams)
-                        @CKEditor(info, articleData.RichTextXPath)
+                        @CKEditor(info, articleData.RichTextXPath, "scriptMin.html", true, 0)
                     </div>
                 </div>
-                <div class='w3-quarter w3-padding'>
-                    <h3>@ResourceKey("RC.categories")</h3>
+                <div class='w3-quarter w3-padding a-articlecategorylist'>
                     @RenderTemplate("ArticleCategoryList.cshtml", appThemeSystem, Model, true)
-                    @RenderTemplate("ArticleCategorySelect.cshtml", appThemeSystem, Model, true)
                 </div>
             </div>
         </div>
@@ -80,13 +78,5 @@
 <script>
     $(document).ready(function () {
 
-        $('#articlekeywords').tagEditor({
-            delimiter: ', ', /* space and comma */
-            placeholder: '@ResourceKey("RE.keywords") ...',
-            removeDuplicates: false,
-        });
-
-        rcadmin.moveToTop('#articleeditmodal');
     });
-
 </script>
