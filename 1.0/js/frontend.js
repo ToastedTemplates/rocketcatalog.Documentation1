@@ -1,5 +1,4 @@
 ﻿
-
 function activatedocumentready(engineUrlWithProtocol) {
 
     $('.clearsearch').unbind("click");

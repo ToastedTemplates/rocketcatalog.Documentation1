@@ -1,0 +1,72 @@
+﻿@inherits RocketCatalog.Components.RocketCatalogTokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI;
+@using Simplisity;
+@using RocketCatalog.Components;
+@using DNNrocketAPI.Components;
+
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketCatalog/App_LocalResources/")
+
+@{
+    var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
+    var sessionParams = (SessionParams)Model.SessionParamsData;
+    var categoryDataList = (CategoryLimpetList)Model.GetDataObject("categorydatalist");
+    var categoryData = new CategoryLimpet(articleDataList.PortalCatalog.PortalId, articleDataList.SessionParamData.GetInt("searchcategoryid"), sessionParams.CultureCode);
+    var portalCatalog = new PortalCatalogLimpet(categoryDataList.PortalId, categoryDataList.CultureCode);
+    var moduleRef = Model.ModuleRef;
+}
+
+@RenderTemplate("SearchBanner.cshtml", articleDataList.PortalCatalog.AppTheme, Model)
+
+<div class="w3-row">
+    <div class="w3-quarter w3-padding-small">
+        @RenderTemplate("CategorySideMenu.cshtml", articleDataList.PortalCatalog.AppTheme, Model)
+    </div>
+    <div class="w3-threequarter w3-padding-small">
+
+        <ul class="w3-ul w3-hoverable w3-border-bottom">
+            @{
+                var lp1 = 0;
+            }
+            @foreach (ArticleLimpet articleData in articleDataList.GetArticleList())
+            {
+                lp1 += 1;
+                var productListUrl = sessionParams.PageUrl + articleData.UrlTokens(portalCatalog.ArticleDetailPageUrl);
+
+                <li pushurl="@productListUrl" class="nonbulletlist a-ajaxarticle" s-cmd="rocketcatalog_public"  s-return='#catalog-tag' s-fields='{"articleid":"@(articleData.ArticleId)","systemkey":"rocketcatalog"}' style="cursor:pointer;">
+                    <a href="@productListUrl" class="" style="pointer-events: none;">@articleData.Name</a>
+                </li>
+            }
+        </ul>
+
+        @RenderTemplate("Paging.cshtml", articleDataList.PortalCatalog.AppTheme, Model)
+
+        <div class="w3-row w3-padding w3-right">
+            <p class="w3-left w3-text-grey">@articleDataList.RecordCount @ResourceKey("RC.articles", sessionParams.CultureCode)</p>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+        // CATEGORY EVENTS
+        $('.a-ajaxarticle').unbind("click");
+        $('.a-ajaxarticle').click(function (event) {
+            event.preventDefault();
+
+            // add to browser bar and history
+            var stateObj = { "": "" };
+            history.pushState(stateObj, "Title", $(this).attr('pushurl'));
+
+            simplisity_callserver(this)
+
+        });
+
+        simplisitypanelcatalogtag();
+
+    });
+
+</script>
