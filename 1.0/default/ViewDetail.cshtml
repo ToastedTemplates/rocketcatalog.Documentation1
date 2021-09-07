@@ -27,7 +27,7 @@
     </div>
     <div class="w3-threequarter w3-padding-small">
 
-        <button type="button" href="@productListUrl" class="w3-button w3-theme-action w3-right simplisity_click" s-cmd="rocketcatalog_public" s-return='#catalog-tag' s-fields='{"systemkey":"rocketcatalog"}'>@ButtonText(ButtonTypes.back, sessionParams.CultureCode)</button>
+        <a href="@productListUrl" class="w3-button w3-theme-action w3-right">@ButtonText(ButtonTypes.back, sessionParams.CultureCode)</a>
 
         <div class="w3-container">
             @HtmlOf(articleData.RichText)

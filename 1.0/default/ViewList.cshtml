@@ -33,8 +33,8 @@
                 lp1 += 1;
                 var productListUrl = sessionParams.PageUrl + articleData.UrlTokens(portalCatalog.ArticleDetailPageUrl);
 
-                <li pushurl="@productListUrl" class="nonbulletlist a-ajaxarticle" s-cmd="rocketcatalog_public"  s-return='#catalog-tag' s-fields='{"articleid":"@(articleData.ArticleId)","systemkey":"rocketcatalog"}' style="cursor:pointer;">
-                    <a href="@productListUrl" class="" style="pointer-events: none;">@articleData.Name</a>
+                <li class="nonbulletlist" style="cursor:pointer;">
+                    <a href="@productListUrl">@articleData.Name</a>
                 </li>
             }
         </ul>
@@ -51,19 +51,6 @@
 <script>
 
     $(document).ready(function () {
-
-        // CATEGORY EVENTS
-        $('.a-ajaxarticle').unbind("click");
-        $('.a-ajaxarticle').click(function (event) {
-            event.preventDefault();
-
-            // add to browser bar and history
-            var stateObj = { "": "" };
-            history.pushState(stateObj, "Title", $(this).attr('pushurl'));
-
-            simplisity_callserver(this)
-
-        });
 
         simplisitypanelcatalogtag();
 
