@@ -11,7 +11,7 @@
     var articleDataList = (ArticleLimpetList)Model.GetDataObject("articlelist");
     var sessionParams = (SessionParams)Model.SessionParamsData;
     var categoryDataList = (CategoryLimpetList)Model.GetDataObject("categorydatalist");
-    var categoryData = new CategoryLimpet(articleDataList.PortalCatalog.PortalId, articleDataList.SessionParamData.GetInt("searchcategoryid"), sessionParams.CultureCode);
+    var categoryData = new CategoryLimpet(articleDataList.PortalCatalog.PortalId, articleDataList.SessionParamData.GetInt("catid"), sessionParams.CultureCode);
     var portalCatalog = new PortalCatalogLimpet(categoryDataList.PortalId, categoryDataList.CultureCode);
     var moduleRef = Model.ModuleRef;
 }
@@ -31,10 +31,8 @@
             @foreach (ArticleLimpet articleData in articleDataList.GetArticleList())
             {
                 lp1 += 1;
-                var productListUrl = sessionParams.PageUrl + articleData.UrlTokens(portalCatalog.ArticleDetailPageUrl);
-
                 <li class="nonbulletlist" style="cursor:pointer;">
-                    <a href="@productListUrl">@articleData.Name</a>
+                    <a href="@articleData.ArticleDetailUrl(sessionParams)">@articleData.Name</a>
                 </li>
             }
         </ul>

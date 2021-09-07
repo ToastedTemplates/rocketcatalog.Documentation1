@@ -17,7 +17,7 @@
     var pagesize = articleDataList.SessionParamData.PageSize;
     var pagechapter = 5;
     var lastpage = 0;
-    var catid = articleDataList.SessionParamData.GetInt("searchcategoryid");
+    var catid = articleDataList.SessionParamData.GetInt("catid");
 
     var r = (page - 1) / pagechapter;
     var BeginPage = 0;
@@ -45,10 +45,10 @@
         <div class="w3-bar">
             @if (BeginPage != 1)
             {
-                <a href="@LocalUtils.TokenReplacementCultureCode(portalCatalog.ArticleListPageUrl, sessionParams.CultureCode.ToLower())?page=1&pagesize=@(pagesize)" class="w3-button w3-hover-grey simplisity_click" s-cmd="rocketcatalog_public"s-return='#catalog-tag' s-post=".searchdata" s-fields='{"page":"1"}'>|❮</a>
+                <a href="@articleDataList.PagingUrl(1)" class="w3-button w3-hover-grey simplisity_click" s-cmd="rocketcatalog_public"s-return='#catalog-tag' s-post=".searchdata" s-fields='{"page":"1"}'>|❮</a>
                 if (page >= 6)
                 {
-                    <a href="@LocalUtils.TokenReplacementCultureCode(portalCatalog.ArticleListPageUrl, sessionParams.CultureCode.ToLower())?page=@(BeginPage - 1)&pagesize=@(pagesize)" class="w3-button w3-hover-grey simplisity_click" s-cmd="rocketcatalog_public"s-return='#catalog-tag' s-post=".searchdata" s-fields='{"page":"@(BeginPage - 1)"}'>..</a>
+                    <a href="@articleDataList.PagingUrl(BeginPage - 1)" class="w3-button w3-hover-grey simplisity_click" s-cmd="rocketcatalog_public"s-return='#catalog-tag' s-post=".searchdata" s-fields='{"page":"@(BeginPage - 1)"}'>..</a>
                 }
             }
 
@@ -61,7 +61,7 @@
                 }
                 if (i <= lastpage)
                 {
-                    <a href="@categoryData.UrlTokens(LocalUtils.TokenReplacementCultureCode(portalCatalog.ArticleListPageUrl, sessionParams.CultureCode.ToLower()))?page=@(i)&pagesize=@(pagesize)" class='w3-button w3-hover-grey @selected simplisity_click' s-cmd="rocketcatalog_public"s-return='#catalog-tag' s-post=".searchdata" s-fields='{"page":"@i"}'>@i</a>
+                    <a href="@articleDataList.PagingUrl(i)" class='w3-button w3-hover-grey @selected simplisity_click' s-cmd="rocketcatalog_public"s-return='#catalog-tag' s-post=".searchdata" s-fields='{"page":"@i"}'>@i</a>
                 }
             }
 
@@ -69,9 +69,9 @@
             {
                 if (EndPage != lastpage)
                 {
-                    <a href="@LocalUtils.TokenReplacementCultureCode(portalCatalog.ArticleListPageUrl, sessionParams.CultureCode.ToLower())?page=@(EndPage + 1)&pagesize=@(pagesize)" class="w3-button w3-hover-grey simplisity_click" onclick="return false;" s-cmd="rocketcatalog_public"s-return='#catalog-tag' s-post=".searchdata" s-fields='{"page":"@(EndPage + 1)"}'>..</a>
+                    <a href="@articleDataList.PagingUrl((EndPage + 1))" class="w3-button w3-hover-grey simplisity_click" onclick="return false;" s-cmd="rocketcatalog_public"s-return='#catalog-tag' s-post=".searchdata" s-fields='{"page":"@(EndPage + 1)"}'>..</a>
                 }
-                <a href="@LocalUtils.TokenReplacementCultureCode(portalCatalog.ArticleListPageUrl, sessionParams.CultureCode.ToLower())?page=@(lastpage)&pagesize=8" class="w3-button w3-hover-grey simplisity_click" onclick="return false;" s-cmd="rocketcatalog_public"s-return='#catalog-tag' s-post=".searchdata" s-fields='{"page":"@lastpage"}'>❯|</a>
+                <a href="@articleDataList.PagingUrl(lastpage)" class="w3-button w3-hover-grey simplisity_click" onclick="return false;" s-cmd="rocketcatalog_public"s-return='#catalog-tag' s-post=".searchdata" s-fields='{"page":"@lastpage"}'>❯|</a>
             }
 
         </div>

@@ -25,7 +25,7 @@
         {
             selectedcolor = "";
             var toplevelclass = "";
-            if (sessionParams.GetInt("searchcategoryid") == categoryData.CategoryId)
+            if (sessionParams.GetInt("catid") == categoryData.CategoryId)
             {
                 selectedcolor = "w3-theme";
             }
@@ -42,11 +42,9 @@
             {
                 parentclass = "treegrid-parent-" + categoryData.ParentItemId;
             }
-            var productListUrl = sessionParams.PageUrl + categoryData.UrlTokens(portalCatalog.ArticleListPageUrl);
-
             <tr class="treegrid-@(categoryData.CategoryId)  @(parentclass) " >
                 <td>
-                    <a href="@productListUrl" class="">@categoryData.Name</a>
+                    <a href="@categoryData.CategoryUrl(sessionParams)" class="">@categoryData.Name</a>
                 </td>
             </tr>
         }

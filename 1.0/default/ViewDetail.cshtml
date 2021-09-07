@@ -9,14 +9,10 @@
 
 @{
     var articleData = (ArticleLimpet)Model.GetDataObject("articledata");
-    var categoryDataList = (CategoryLimpetList)Model.GetDataObject("categorydatalist");
     var sessionParams = (SessionParams)Model.SessionParamsData;
-    var portalCatalog = new PortalCatalogLimpet(categoryDataList.PortalId, categoryDataList.CultureCode);
-    var categoryData = new CategoryLimpet(portalCatalog.PortalId, sessionParams.GetInt("searchcategoryid"), sessionParams.CultureCode);
+    var portalCatalog = new PortalCatalogLimpet(articleData.PortalId, articleData.CultureCode);
+    var categoryData = new CategoryLimpet(portalCatalog.PortalId, sessionParams.GetInt("catid"), sessionParams.CultureCode);
     var moduleRef = Model.ModuleRef;
-
-    var productListUrl = sessionParams.PageUrl;
-
 }
 
 @RenderTemplate("SearchBanner.cshtml", articleData.PortalCatalog.AppTheme, Model)
@@ -27,7 +23,7 @@
     </div>
     <div class="w3-threequarter w3-padding-small">
 
-        <a href="@productListUrl" class="w3-button w3-theme-action w3-right">@ButtonText(ButtonTypes.back, sessionParams.CultureCode)</a>
+        <a href="@categoryData.CategoryUrl(sessionParams)" class="w3-button w3-theme-action w3-right">@ButtonText(ButtonTypes.back, sessionParams.CultureCode)</a>
 
         <div class="w3-container">
             @HtmlOf(articleData.RichText)

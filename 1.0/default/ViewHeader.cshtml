@@ -54,7 +54,7 @@
 
         $('.clearsearch').unbind("click");
         $('.clearsearch').click(function () {
-            $('#searchcategoryid').val('0');
+            $('#catid').val('0');
             $('#searchtext').val('');
             $('.dosearch').trigger('click');
             return false; // prevent the button click from happening
@@ -68,7 +68,7 @@
         $('.actionentrykey').unbind('keypress');
         $('.actionentrykey').on('keypress', function (e) {
             if (e.keyCode == 13) {
-                $('#searchcategoryid').val('0');
+                $('#catid').val('0');
                 $('.dosearch').trigger('click');
                 return false; // prevent the button click from happening
             }
