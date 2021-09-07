@@ -30,7 +30,7 @@
                 var orderbyDictionary = new Dictionary<string, string>();
                 foreach (var orderbyInfo in portalData.GetProductOrderByList())
                 {
-                    orderbyDictionary.Add(orderbyInfo.GetXmlProperty("genxml/key"), ResourceKey("RE." + orderbyInfo.GetXmlProperty("genxml/key"), sessionParams.CultureCode).ToString());
+                    orderbyDictionary.Add(orderbyInfo.GetXmlProperty("genxml/key"), ResourceKey("RC." + orderbyInfo.GetXmlProperty("genxml/key"), sessionParams.CultureCode).ToString());
                 }
                 <div class="w3-bar-item w3-right w3-hide-small w3-margin-left">
                     @DropDownList(new SimplisityInfo(), "genxml/hidden/pagesize", "8,16,32,64,128", "8,16,32,64,128", "class='w3-input w3-border simplisity_sessionfield ' onchange=\"$('.triggersearch').trigger('click');\" title='" + @ResourceKey("DNNrocket.pagesize", sessionParams.CultureCode) + "'", "32")
