@@ -1,11 +1,13 @@
 ﻿@inherits RocketCatalog.Components.RocketCatalogTokens<Simplisity.SimplisityRazor>
 @using DNNrocketAPI;
 @using Simplisity;
+@using RocketPortal.Components;
 @using RocketCatalog.Components;
 @using DNNrocketAPI.Components;
 
 @{
-    var portalData = (PortalCatalogLimpet)Model.List.First();
+    var portalCatData = (PortalCatalogLimpet)Model.List.First();
+    var portalData = new PortalLimpet(portalCatData.PortalId);
     var sessionParams = (SessionParams)Model.SessionParamsData;
     var paramInfo = (SimplisityInfo)Model.GetDataObject("paraminfo");
 }
@@ -14,8 +16,8 @@
 
 <link rel="stylesheet" href="@(sessionParams.EngineURL)@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/API/Themes/config-w3/1.0/css/" + portalData.ColorFrontTheme)">
 <script type="text/javascript" src="@(sessionParams.EngineURL)@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/Simplisity/js/simplisity.js")"></script>
-<script type="text/javascript" src="@(sessionParams.EngineURL)@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/RocketThemes/" + portalData.AppTheme.AppThemeFolder + "/" + portalData.AppTheme.AppVersionFolder + "/js/frontend.js")"></script>
-<link rel="stylesheet" href="@(sessionParams.EngineURL)@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/RocketThemes/" + portalData.AppTheme.AppThemeFolder + "/" + portalData.AppTheme.AppVersionFolder + "/css/theme.css")">
+<script type="text/javascript" src="@(sessionParams.EngineURL)@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/RocketThemes/" + portalCatData.AppTheme.AppThemeFolder + "/" + portalCatData.AppTheme.AppVersionFolder + "/js/frontend.js")"></script>
+<link rel="stylesheet" href="@(sessionParams.EngineURL)@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/RocketThemes/" + portalCatData.AppTheme.AppThemeFolder + "/" + portalCatData.AppTheme.AppVersionFolder + "/css/theme.css")">
 <script type="text/javascript" src="@(sessionParams.EngineURL)@DNNrocketUtils.AppendFileModifiedDate("/DesktopModules/DNNrocket/js/jquery.validate.min.js")"></script>
 
 @if (DNNrocketUtils.GetLanguageCode(sessionParams.CultureCode) != "en")
