@@ -23,6 +23,8 @@
 
 }
 
+@RenderLanguageSelector("articleadmin_editarticle", "{\"articleid\":\"" + articleData.ArticleId + "\"}", appThemeSystem, Model)
+
 <div id="articleedit">
 
     <div id="articleeditcontent" class='w3-animate-opacity '>
@@ -36,6 +38,7 @@
             }
             <div class="w3-button w3-right w3-margin-right w3-red simplisity_confirmclick" s-confirm="@ResourceKey("DNNrocket.delete","","confirm")" s-cmd="articleadmin_delete" s-fields='{"articleid":"@articleData.ArticleId"}'>@ButtonText(ButtonTypes.delete)</div>
         </div>
+
 
         <div id="articledatasection" class="">
             <div class='w3-row'>
