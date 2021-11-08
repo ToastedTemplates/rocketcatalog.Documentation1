@@ -13,7 +13,7 @@
     var categoryDataList = (CategoryLimpetList)Model.GetDataObject("categorydatalist");
     var categoryData = new CategoryLimpet(articleDataList.PortalCatalog.PortalId, articleDataList.SessionParamData.GetInt("catid"), sessionParams.CultureCode);
     var portalCatalog = new PortalCatalogLimpet(categoryDataList.PortalId, categoryDataList.CultureCode);
-    var moduleRef = Model.ModuleRef;
+    var moduleRef = Model.DataRef;
 }
 
 @RenderTemplate("SearchBanner.cshtml", articleDataList.PortalCatalog.AppTheme, Model)
