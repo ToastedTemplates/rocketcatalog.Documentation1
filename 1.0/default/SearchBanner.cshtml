@@ -8,7 +8,7 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketCatalog/App_LocalResources/")
 
 @{
-    var moduleRef = Model.ModuleRef;
+    var DataRef = Model.DataRef;
     var sessionParams = (SessionParams)Model.SessionParamsData;
     var portalData = (PortalCatalogLimpet)Model.GetDataObject("portaldata");
     var categoryData = new CategoryLimpet(portalData.PortalId, sessionParams.GetInt("catid"), sessionParams.CultureCode);

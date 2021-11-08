@@ -12,7 +12,7 @@
     var sessionParams = (SessionParams)Model.SessionParamsData;
     var portalCatalog = new PortalCatalogLimpet(articleData.PortalId, articleData.CultureCode);
     var categoryData = new CategoryLimpet(portalCatalog.PortalId, sessionParams.GetInt("catid"), sessionParams.CultureCode);
-    var moduleRef = Model.DataRef;
+    var DataRef = Model.DataRef;
 }
 
 @RenderTemplate("SearchBanner.cshtml", articleData.PortalCatalog.AppTheme, Model)
