@@ -31,20 +31,7 @@
 <script>
 
     $(document).ready(function () {
-
         $(document).simplisityStartUp('@sessionParams.ApiUrl', { systemkey: 'rocketcatalog', debug: false });
-
-        @{
-            // THESE VALUES ARE NEEDED FOR REMOTE RENDERING, POPULATE THEM ON FIRST LOAD (In the module OnInit(EventArgs e)),
-            //  THEN ADD THEM TO SESSIONPARAMS SO THEY ARE AVAILABLE FOR REMOTE SERVER RENDERING.
-        }
-        simplisity_setSessionField("pageurl", '@sessionParams.PageUrl');
-        simplisity_setSessionField("sitekey", '@sessionParams.SiteKey');
-        simplisity_setSessionField('culturecode', '@sessionParams.CultureCode');
-        simplisity_setSessionField('moduleid', '@sessionParams.ModuleId');
-        simplisity_setSessionField('tabid', '@sessionParams.TabId');
-        simplisity_setSessionField('apiurl', '@sessionParams.ApiUrl');
-
     });
 
     function simplisitypanelcatalogtag() {
